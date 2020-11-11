@@ -12,8 +12,10 @@ import io.reactivex.schedulers.Schedulers
 class BooksViewModel : ViewModel() {
 
     private var _bookResponse = MutableLiveData<BookResponse>()
+    private var _bookResponseError = MutableLiveData<String>()
 
     val bookResponse:LiveData<BookResponse> get() = _bookResponse
+    val bookResponseError:LiveData<String> get() = _bookResponseError
 
     fun getBooks() {
         Repository.create().getBooks()
@@ -22,7 +24,7 @@ class BooksViewModel : ViewModel() {
             .subscribe ({
                 _bookResponse.value = it
             },{
-                print(it.toString())
+               _bookResponseError.value = it.toString()
             })
     }
 
